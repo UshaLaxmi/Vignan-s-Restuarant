@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Vignan's Restaurant </title>
+    <style>
+        /* Basic reset and styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        nav {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between; /* Added for spacing between links and contact info */
+            align-items: center; /* Align items vertically */
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between phone icon and text */
+        }
+
+        .contact-info span {
+            font-size: 14px;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        section {
+            width: 100%;
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        #home {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #menu {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #menu h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .menu-item button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .menu-item button:hover {
+            background-color: #45a049;
+        }
+
+        #cart {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #cart h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #cart-items {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        #cart-items p {
+            margin-bottom: 5px;
+        }
+
+        #cart-total {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        #receipt {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #receipt h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #customer-details {
+            margin-bottom: 10px;
+        }
+
+        #billing-items {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        #billing-items td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        #billing-items td:first-child {
+            text-align: left;
+        }
+
+        #total-amount {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        #dashboard {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #dashboard h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .dashboard-item-content {
+            margin-bottom: 5px;
+        }
+
+        @media (min-width: 768px) {
+            main {
+                flex-direction: row;
+            }
+
+            section {
+                width: 48%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1> Vignan's Restaurant </h1>
+    </header>
+    <nav>
+        <a href="#" onclick="toggleSection('home')">Home</a>
+        <a href="#" onclick="toggleSection('menu')">Menu</a>
+        <a href="#" onclick="toggleSection('cart')">Cart</a>
+        <a href="#" onclick="toggleSection('dashboard')">Dashboard</a>
+        <a href="#" onclick="toggleSection('contact')">Contact Us</a>
+        <div class="contact-info">
+        </div>
+    </nav>
+    <main>
+        <section id="home" class="active">
+            <h2>Welcome to our Vignan's Restaurant!</h2>
+			            <img src="https://d3c699y7ogacoe.cloudfront.net/wp-content/uploads/2018/07/9336a153c9b74476a637816758bc126a.png" alt=" Vignan's Restaurant ">
+
+            <p>Enjoy our delicious dishes and make your meal memorable.</p>
+        </section>
+        <section id="menu">
+            <h2>Menu</h2>
+            <div id="menu-items"></div>
+        </section>
+        <section id="cart">
+            <h2>Cart</h2>
+            <div id="cart-items"></div>
+            <p id="cart-total">Total: ₹0.00</p>
+            <form id="customer-form">
+                <label for="customer-name">Name:</label>
+                <input type="text" id="customer-name" required><br><br>
+                <label for="customer-mobile">Mobile Number:</label>
+                <input type="tel" id="customer-mobile" pattern="[0-9]{10}" required><br><br>
+                <label for="customer-locality">Locality:</label>
+                <input type="text" id="customer-locality" required><br><br>
+            </form>
+            <button onclick="generateReceipt()">Generate Receipt</button>
+            <div id="receipt" style="display:none;">
+                <h2>Receipt</h2>
+                <p id="customer-details"></p>
+                <table id="billing-items"></table>
+                <p id="total-amount">Total: ₹0.00</p>
+            </div>
+        </section>
+        <section id="dashboard">
+            <h2>Dashboard</h2>s
+            <div id="recent-orders">
+                <h3>Recent Orders</h3>
+            </div>
+            <div id="revenue">
+                <h3>Total Revenue</h3>
+                <p>₹0.00</p>
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>For any inquiries, please reach out to us using the information below:</p>
+            <ul>
+                <li>Phone: +91 123 456 7890</li>
+                <li>Email: Vignan@restaurant.com</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        // Sample data for menu items (prices are in Indian Rupees)
+        const menuItems = [
+            { id: 1, name: "Pizza", price: 130 },
+            { id: 2, name: "Burger", price: 150 },
+            { id: 3, name: "Salad", price: 180},
+            { id: 4, name: "Pasta", price: 200 },
+            { id: 5, name: "Sandwich", price: 190 },
+			{ id: 6, name: "Oreo Milkshake", price: 90 },
+			{ id: 7, name: "Black Current", price: 100 },
+			{ id: 8, name: "Veg Manchuria", price: 110 }
+        ];
+
+        // Array to store cart items
+        let cartItems = [];
+
+        // Array to store recent orders
+        let recentOrders = [];
+
+        // Total revenue accumulator
+        let totalRevenue = 0;
+
+        // Function to display menu items dynamically
+        function displayMenuItems() {
+            const menuSection = document.getElementById('menu-items');
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
+                menuItem.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>₹${item.price.toFixed(2)}</p>
+                    <input type="number" id="quantity${item.id}" min="1" value="1" style="width: 50px;">
+                    <button onclick="addToCart(${item.id}, '${item.name}', ${item.price})">Add to Cart</button>
+                `;
+                menuSection.appendChild(menuItem);
+            });
+        }
+
+        // Function to add item to the cart
+        function addToCart(id, name, price) {
+            const quantityInput = document.getElementById(`quantity${id}`);
+            const quantity = parseInt(quantityInput.value);
+
+            // Check if item already exists in cart
+            const existingItem = cartItems.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cartItems.push({ id, name, price, quantity });
+            }
+
+            // Update cart display
+            displayCartItems();
+        }
+
+        // Function to display cart items dynamically
+        function displayCartItems() {
+            const cartItemsSection = document.getElementById('cart-items');
+            cartItemsSection.innerHTML = ''; // Clear previous items
+
+            cartItems.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <p>${item.name} - ₹${item.price.toFixed(2)} x ${item.quantity}</p>
+                    <button onclick="removeFromCart(${item.id})">Remove</button>
+                `;
+                cartItemsSection.appendChild(cartItem);
+            });
+
+            // Calculate total and update display
+            const cartTotal = document.getElementById('cart-total');
+            let total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            cartTotal.textContent = `Total: ₹${total.toFixed(2)}`;
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(id) {
+            cartItems = cartItems.filter(item => item.id !== id);
+            displayCartItems();
+        }
+
+        // Function to toggle section visibility
+        function toggleSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+                if (sectionId === 'dashboard') {
+                    displayDashboard();
+                } else if (sectionId === 'cart') {
+                    displayCartItems();
+                }
+            }
+        }
+
+        // Function to generate receipt
+        function generateReceipt() {
+            const customerName = document.getElementById('customer-name').value;
+            const customerMobile = document.getElementById('customer-mobile').value;
+            const customerLocality = document.getElementById('customer-locality').value;
+
+            // Validate customer details
+            if (!customerName || !customerMobile || !customerLocality) {
+                alert('Please fill in all customer details.');
+                return;
+            }
+
+            // Display customer details in receipt
+            const customerDetails = `
+                <strong>Name:</strong> ${customerName}<br>
+                <strong>Mobile Number:</strong> ${customerMobile}<br>
+                <strong>Locality:</strong> ${customerLocality}
+            `;
+            document.getElementById('customer-details').innerHTML = customerDetails;
+
+            // Generate billing items table
+            const billingItemsSection = document.getElementById('billing-items');
+            billingItemsSection.innerHTML = ''; // Clear previous items
+
+            cartItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>₹${item.price.toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${(item.price * item.quantity).toFixed(2)}</td>
+                `;
+                billingItemsSection.appendChild(row);
+            });
+
+            // Calculate total
+            const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            document.getElementById('total-amount').textContent = `Total: ₹${total.toFixed(2)}`;
+
+            // Store recent order
+            recentOrders.push({ name: customerName, total });
+
+            // Update total revenue
+            totalRevenue += total;
+
+            // Clear cart items after generating receipt
+            cartItems = [];
+
+            // Clear input fields
+            document.getElementById('customer-name').value = '';
+            document.getElementById('customer-mobile').value = '';
+            document.getElementById('customer-locality').value = '';
+
+            // Display receipt section
+            toggleSection('cart');
+            document.getElementById('receipt').style.display = 'block';
+            alert(`Receipt generated for ${customerName}.`);
+
+            // Update dashboard display
+            displayDashboard();
+        }
+
+        // Function to display dashboard information
+        function displayDashboard() {
+            const recentOrdersSection = document.getElementById('recent-orders');
+            recentOrdersSection.innerHTML = '<h3>Recent Orders</h3>';
+            recentOrders.forEach(order => {
+                const orderInfo = document.createElement('div');
+                orderInfo.classList.add('dashboard-item-content');
+                orderInfo.textContent = `${order.name} - ₹${order.total.toFixed(2)}`;
+                recentOrdersSection.appendChild(orderInfo);
+            });
+
+            const revenueSection = document.getElementById('revenue');
+            revenueSection.innerHTML = `<h3>Total Revenue</h3><p>₹${totalRevenue.toFixed(2)}</p>`;
+        }
+
+        // Display menu items when the page loads
+        window.onload = function() {
+            displayMenuItems();
+        };
+    </script>
+</body>
+</html>
